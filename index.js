@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const {
     MongoClient,
-    ServerApiVersion
+    ServerApiVersion,
+    ObjectId
 } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
@@ -20,12 +21,34 @@ const client = new MongoClient(uri, {
     useUnifiedTopology: true,
     serverApi: ServerApiVersion.v1
 });
-client.connect(err => {
-    const collection = client.db("test").collection("devices");
-    console.log('raiyanAuto DB connected')
-    // perform actions on the collection object
-    client.close();
-});
+
+async function run() {
+    try{
+        await client.connect();
+        const autosCollection = client.db('raiyanAuto').collection('autos');
+        
+        //get all autos API
+        app.get('/auto', async (req, res) => {
+            const query = {};
+            const cursor = autosCollection.find(query);
+            const autos = await cursor.toArray();
+            res.send(autos);
+        });
+
+        //get specific auto API
+        app.get('/auto/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const auto = await autosCollection.findOne(query);
+            res.send(auto);
+        })
+    }
+    finally{
+
+    }
+}
+
+run().catch(console.dir);
 
 
 

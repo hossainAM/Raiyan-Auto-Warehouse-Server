@@ -49,7 +49,14 @@ async function run() {
             const query = {_id: ObjectId(id)};
             const result = await autosCollection.deleteOne(query);
             res.send(result)
-        })
+        });
+
+        //Add new item API
+        app.post('/auto', async (req, res) => {
+            const newItem = req.body;
+            const result = await autosCollection.insertOne(newItem);
+            res.send(result);
+        });
     }
     finally{
 

@@ -41,6 +41,14 @@ async function run() {
             const query = {_id: ObjectId(id)};
             const auto = await autosCollection.findOne(query);
             res.send(auto);
+        });
+
+        //Delete API
+        app.delete('/auto/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await autosCollection.deleteOne(query);
+            res.send(result)
         })
     }
     finally{

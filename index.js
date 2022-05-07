@@ -27,13 +27,22 @@ async function run() {
         await client.connect();
         const autosCollection = client.db('raiyanAuto').collection('autos');
         
-        //get all autos API
-        app.get('/auto', async (req, res) => {
-            const query = {};
-            const cursor = autosCollection.find(query);
-            const autos = await cursor.toArray();
-            res.send(autos);
-        });
+        //get all autos API//need to be deleted
+        // app.get('/auto', async (req, res) => {
+        //     const query = {};
+        //     const cursor = autosCollection.find(query);
+        //     const autos = await cursor.toArray();
+        //     res.send(autos);
+        // });
+
+         //get autos by user API
+         app.get('/auto', async (req, res) => {
+             const email = req.query.email;
+             const query = {email: email};
+             const cursor = autosCollection.find(query);
+             const autos = await cursor.toArray();
+             res.send(autos);
+         });
 
         //get specific auto API
         app.get('/auto/:id', async (req, res) => {

@@ -53,8 +53,16 @@ async function run() {
             res.send({accessToken});
         });
 
+        //get all autos API
+        app.get('/auto', async (req, res) => {
+            const query = {};
+            const cursor = autosCollection.find(query);
+            const autos = await cursor.toArray();
+            res.send(autos);
+        })
+
          //get autos by user API
-         app.get('/auto', verifyJWT, async(req, res) => {
+         app.get('/newauto', verifyJWT, async(req, res) => {
             const decodedEmail = req.decoded.email;
              const email = req.query.email;
              if(email === decodedEmail) {

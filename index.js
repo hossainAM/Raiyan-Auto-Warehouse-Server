@@ -98,7 +98,7 @@ async function run() {
             const filter = {_id: ObjectId(id)};
             const options = { upsert: true };
             const updatedDoc = {
-                $inc: {
+                $set: {
                     quantity: updatedItem.quantity,
                 }
             };

@@ -94,15 +94,17 @@ async function run() {
         //Update item API
         app.put('/auto/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(req.body)
+            console.log(id)
             const quantity = req.body.quantity;
+            console.log(quantity)
             const filter = {_id: ObjectId(id)};
             const options = { upsert: true };
             const updatedQuantity = {
                 $set: {
-                    ...quantity,
+                    quantity: quantity,
                 }
             };
+            console.log(updatedQuantity)
             const result = await autosCollection.updateOne(filter, updatedQuantity, options);
             res.send(result);
         });
@@ -118,14 +120,14 @@ async function run() {
          });
 
          //Delete API by user
-         app.delete('/auto/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = {
-                _id: ObjectId(id)
-            };
-            const result = await autosCollection.deleteOne(query);
-            res.send(result)
-         });
+        //  app.delete('/auto/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = {
+        //         _id: ObjectId(id)
+        //     };
+        //     const result = await autosCollection.deleteOne(query);
+        //     res.send(result)
+        //  });
     }
     finally{
 

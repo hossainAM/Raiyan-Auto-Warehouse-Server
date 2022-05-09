@@ -94,15 +94,16 @@ async function run() {
         //Update item API
         app.put('/auto/:id', async (req, res) => {
             const id = req.params.id;
-            const updatedItem = req.body;
+            console.log(req.body)
+            const quantity = req.body.quantity;
             const filter = {_id: ObjectId(id)};
             const options = { upsert: true };
-            const updatedDoc = {
+            const updatedQuantity = {
                 $set: {
-                    quantity: updatedItem.quantity,
+                    ...quantity,
                 }
             };
-            const result = await autosCollection.updateOne(filter, updatedDoc, options);
+            const result = await autosCollection.updateOne(filter, updatedQuantity, options);
             res.send(result);
         });
 
@@ -115,6 +116,16 @@ async function run() {
              const result = await autosCollection.deleteOne(query);
              res.send(result)
          });
+
+         //Delete API by user
+         app.delete('/auto/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {
+                _id: ObjectId(id)
+            };
+            const result = await autosCollection.deleteOne(query);
+            res.send(result)
+         });
     }
     finally{
 
@@ -122,10 +133,6 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-
-
-
 
 
 
